@@ -35,7 +35,8 @@ def start_worker():
         try:
             action_dict = {
                 'delete': 'pause',
-                'set': 'unpause'
+                'set': 'unpause',
+                'expire': 'pause'
             }
             action = action_dict.get(o.action, 'UNKNOW')
             _log.debug("Etcd object action is %s, docker action is: %s, container is: %s.",

@@ -80,7 +80,7 @@ class DeathWatcher(object):
 
             _log.debug("Container is found in etcd, will refresh his ttl.")
 
-            etcd_obj.value, etcd_obj.ttl = container, ttl
+            etcd_obj.value, etcd_obj.ttl = container, ttl + etcd_obj.ttl
             etcd_obj = self.etcd_client.update(etcd_obj)
         except etcd.EtcdKeyNotFound:
             _log.debug("Container not found in etcd, will create it first.")
@@ -93,4 +93,8 @@ class DeathWatcher(object):
         return self.swarm_client.pause(container=container_id)
 
     def unpause_container(self, container_id):
-        return self.swarm_client.unpause(container=container_id)
+        container_data = self.swarm_client.inspect_container(container_id)
+        if container_data.get('State', {}).get('Status') == 'paused':
+            return self.swarm_client.unpause(container=container_id)
+        else:
+            _log.debug("Container is already running, skip this event.")
