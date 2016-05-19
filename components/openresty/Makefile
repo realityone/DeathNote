@@ -1,4 +1,5 @@
 dn-openresty:
-	docker build -t $@ .
+	docker pull realityone/openrestry:latest
+	docker tag realityone/openrestry:latest $@
 
 .PHONY: dn-openresty
