@@ -1,0 +1,8 @@
+demo_2048:
+  image: daocloud.io/daocloud/dao-2048:latest
+  ports:
+    - 80
+  labels:
+    - "interlock.hostname=__HOSTNAME__"
+    - "interlock.domain=death-note.co"
+
