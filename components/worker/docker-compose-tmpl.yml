@@ -1,5 +1,0 @@
-dn-worker:
-  build: .
-  environment:
-    ETCD_URL: "http://192.168.2.125:12379"
-    SWARM_URL: "tcp://192.168.2.125:2375"
