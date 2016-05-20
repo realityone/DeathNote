@@ -98,3 +98,9 @@ class DeathWatcher(object):
             return self.swarm_client.unpause(container=container_id)
         else:
             _log.debug("Container is already running, skip this event.")
+
+    def stop_container(self, container_id):
+        return self.swarm_client.stop(container_id)
+
+    def start_container(self, container_id):
+        return self.swarm_client.start(container_id)

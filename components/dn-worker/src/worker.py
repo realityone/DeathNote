@@ -19,7 +19,7 @@ def signal_handler(signal_, frame):
 
 def parse_container_id(key):
     return key.split('/')[-1]
-    
+
 
 paused_containers = {}
 stopped_containers = {}
@@ -31,19 +31,29 @@ def freezer():
     death_watcher = get_death_watcher(SWARM_URL, ETCD_URL)
     while True:
         cur = time.time()
-        for c, t in pause_container.items():
+        for c, t in paused_containers.items():
             if cur - t > FREEZE_SECONDS:
-                death_watcher.stop_container(c)
-                stopped_containers[c] = cur
-                del paused_containers[c]
+                try:
+                    death_watcher.unpause_container(c)
+                    death_watcher.stop_container(c)
+                except Exception, e:
+                    _log.debug("Stop Container Failed, %s", str(e))
+                else:
+                    _log.debug("Stop Container Succeed, %s", c)
+                    stopped_containers[c] = cur
+                    del paused_containers[c]
+
                 break
-        else:   
+        else:
             time.sleep(1)
 
 
 def start_worker():
     signal.signal(signal.SIGINT, signal_handler)
-    threading.Thread(target=freezer)
+    
+    freezer_thread = threading.Thread(target=freezer)
+    freezer_thread.start()
+
     _log.debug("Create Death Watcher...")
     death_watcher = get_death_watcher(SWARM_URL, ETCD_URL)
     for o in death_watcher.watch_containers(timeout=0):
