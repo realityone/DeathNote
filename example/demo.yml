@@ -4,4 +4,4 @@ getcet:
   - 8081
   labels:
   - "interlock.hostname=getcet"
-  - "interlock.domain=demo.co"
+  - "interlock.domain=death-note.co"
