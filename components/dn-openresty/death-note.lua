@@ -5,7 +5,7 @@ local etcd_url = os.getenv('ETCD_URL')
 local etcd_api_prefix = "/v2/keys"
 local containers_dir = "/death-note/v1/containers/"
 
-local duration = 3;
+local duration = 1;
 
 local function etcd_client()
     if etcd_url == nil then
