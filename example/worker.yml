@@ -1,0 +1,5 @@
+dn-worker:
+  image: daocloud.io/alphabeta_com/dn-worker:latest
+  environment:
+    ETCD_URL: "http://192.168.2.125:12379"
+    SWARM_URL: "tcp://192.168.2.125:2375"

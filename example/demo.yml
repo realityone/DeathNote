@@ -1,0 +1,7 @@
+getcet:
+  image: daocloud.io/realityone/getcet
+  ports:
+  - 8081
+  labels:
+  - "interlock.hostname=getcet"
+  - "interlock.domain=demo.co"
